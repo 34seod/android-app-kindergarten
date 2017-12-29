@@ -24,7 +24,6 @@ import xyz.btpink.w.vo.*;
 @Controller
 public class MapController {
 	
-	
 	private String lat = "37.56";
 	private String lng = "126.97";
 	
