@@ -22,24 +22,19 @@ import xyz.btpink.w.vo.*;
  * Handles requests for the application home page.
  */
 @Controller
-public class HomeController {
+public class AccountController {
 	@Autowired
 	AccountDAO accountDAO;
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
+	//로그인 검증하고 계정을 판별하여 반환함.
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@ResponseBody
+	public String login(@RequestBody Map<String, String> data){
 		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
-		return "home";
+		System.out.println("POST : "+ data.get("id")+", "+data.get("pw"));
+		//해당 id가 부모인지 선생인지 확인해서 P or T 를 앱에 전송한다.
+		String result = accountDAO.Login(new Account(data.get("id"), data.get("pw")));
+		return result;
 	}
 	
 }

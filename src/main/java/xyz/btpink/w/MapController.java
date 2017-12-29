@@ -22,24 +22,29 @@ import xyz.btpink.w.vo.*;
  * Handles requests for the application home page.
  */
 @Controller
-public class HomeController {
-	@Autowired
-	AccountDAO accountDAO;
+public class MapController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private String lat = "37.56";
+	private String lng = "126.97";
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
+	//위치정보를 서버에 저장한다.
+	@RequestMapping(value = "/location", method = RequestMethod.POST)
+	@ResponseBody
+	public String location(@RequestBody Map<String, String> data){
+		lat = data.get("lat");
+		lng = data.get("lng");
 		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
-		return "home";
+		System.out.println("POST : "+ lat+", "+ lng);
+		String result = lat+", "+lng;
+		return result;
 	}
-	
+
+	//위치정보 요청 시 서버에 저장된 정보를 넘긴다.
+	@RequestMapping(value = "/getLocation", method = RequestMethod.POST)
+	@ResponseBody
+	public String getLocation(){
+		String result = lat+"@"+lng;
+		System.out.println(result);
+		return result;
+	}
 }
