@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xyz.btpink.w.dao.AttendenceMapper">
+
+<select id="getMainParam" parameterType="String" resultType="MainParam">
+ select count(case when absent=0 then 1 end)attend, count(case when early=1 then 1 end)early, count(case when sick=1 then 1 end)sick, count(case when absent=1 then 1 end)absent from attendence where today = to_char(sysdate, 'yy/mm/dd') and classno=#{classno}  
+</select>
+
+<select id="getMainParama" resultType="MainParam">
+ select count(case when absent=0 then 1 end)attend, count(case when early=1 then 1 end)early, count(case when sick=1 then 1 end)sick, count(case when absent=1 then 1 end)absent from attendence where today = to_char(sysdate, 'yy/mm/dd')  
+</select>
+
+
+</mapper>
