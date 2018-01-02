@@ -20,7 +20,7 @@ public class AccountDAO implements AccountMapper {
 		String memno = mapper.Login(account);
 		String result = "";
 		if(memno != null){
-			result = memno.substring(0,1);
+			result = memno;
 		}else{
 			result = "no exsist id";
 		}
