@@ -28,9 +28,14 @@ public class MessageDAO {
 		Student memno = mapper.getInfo(id);
 		return memno;
 	}
-	public String getmsg(String id) {
+	public ArrayList<Demand> getmsg(String id) {
 		MessageMapper mapper = sqlSession.getMapper(MessageMapper.class);
-		String memno = mapper.getmsg(id);
-		return "";
+		ArrayList<Demand> result = mapper.getmsg(id);
+		return result;
+	}
+	public int delmsg(int num) {
+		MessageMapper mapper = sqlSession.getMapper(MessageMapper.class);
+		int result = mapper.delmsg(num);
+		return result;
 	}
 }

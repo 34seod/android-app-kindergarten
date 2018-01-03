@@ -6,6 +6,7 @@ import xyz.btpink.w.vo.*;
 
 public interface MessageMapper {
 	public int save(Demand demand);
+	public int delmsg(int num);
 	public Student getInfo(String id);
-	public String getmsg(String id);
+	public ArrayList<Demand> getmsg(String id);
 }

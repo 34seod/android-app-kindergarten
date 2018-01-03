@@ -3,6 +3,9 @@ package xyz.btpink.w;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,12 +38,24 @@ public class MessageController {
 	}
 	@RequestMapping(value = "/getmsg", method = RequestMethod.POST)
 	@ResponseBody
-	public String getmsg(@RequestBody Map<String, String> data){
+	public ArrayList<Demand> getmsg(@RequestBody Map<String, String> data){
 		String id = data.get("id");
 		
 		System.out.println(id);
 		
-		String result = messageDAO.getmsg(id);
-		return "asdf";
+		ArrayList<Demand> result = messageDAO.getmsg(id);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/delmsg", method = RequestMethod.POST)
+	@ResponseBody
+	public int delmsg(@RequestBody Map<String, String> data){
+		int num = Integer.parseInt(data.get("num"));
+		System.out.println(num);
+		
+		int result = messageDAO.delmsg(num);
+		
+		return result;
 	}
 }

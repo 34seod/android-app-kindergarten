@@ -19,7 +19,8 @@
 	<insert id="save" parameterType="Demand">
 		insert into msg
 		values(
-			 #{stdno}
+			msg_seq.NEXTVAL
+			, #{stdno}
 			, #{content}
 			, #{classno}
 			, #{name}
@@ -33,4 +34,9 @@
 						from class
 						where memno=#{id})
 	</select>
+	
+	<delete id="delmsg" parameterType="int">
+		delete from msg
+		where num = #{num}
+	</delete>
 </mapper>

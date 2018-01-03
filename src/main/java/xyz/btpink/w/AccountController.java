@@ -29,12 +29,21 @@ public class AccountController {
 	//로그인 검증하고 계정을 판별하여 반환함.
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
-	public String login(@RequestBody Map<String, String> data){
+	public String login(@RequestBody Account data){
 		
-		System.out.println("POST : "+ data.get("id")+", "+data.get("pw"));
+		System.out.println("POST : "+ data.getId()+", "+data.getPw());
 		//해당 id가 부모인지 선생인지 확인해서 P or T 를 앱에 전송한다.
-		String result = accountDAO.Login(new Account(data.get("id"), data.get("pw")));
+		String result = accountDAO.Login(data);
 		return result;
 	}
+//	@RequestMapping(value = "/login", method = RequestMethod.POST)
+//	@ResponseBody
+//	public String login(@RequestBody Map<String, String> data){
+//		
+//		System.out.println("POST : "+ data.get("id")+", "+data.get("pw"));
+//		//해당 id가 부모인지 선생인지 확인해서 P or T 를 앱에 전송한다.
+//		String result = accountDAO.Login(new Account(data.get("id"), data.get("pw")));
+//		return result;
+//	}
 	
 }
