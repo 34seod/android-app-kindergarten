@@ -11,5 +11,6 @@
 	<mappers>
 		<mapper resource="mapper/AccountMapper.xml" />
 		<mapper resource="mapper/MessageMapper.xml" />
+		<mapper resource="mapper/FaceApiMapper.xml" />
 	</mappers>
 </configuration>
