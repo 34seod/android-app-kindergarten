@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import xyz.btpink.w.dao.FaceApiDAO;
 import xyz.btpink.w.util.Base64ToImgDecoder;
+import xyz.btpink.w.vo.Student;
 
 @Controller
 public class FaceApiController {
@@ -18,17 +19,32 @@ public class FaceApiController {
 	@Autowired
 	FaceApiDAO faceApiDAO;
 	
-	//로그인 검증하고 계정을 판별하여 반환함.
-	@RequestMapping(value = "/saveImage", method = RequestMethod.POST)
+	@RequestMapping(value = "/addface", method = RequestMethod.POST)
 	@ResponseBody
-	public String saveImage(@RequestBody Map<String, String> data) throws Exception{
-		System.out.println("base64 수신");
+	public String addFace(@RequestBody Student data) throws Exception{
+		System.out.println("base64 수신 - addface");
+		System.out.println(data);
 		Base64ToImgDecoder base64Decoder = new Base64ToImgDecoder();
-		String filename = base64Decoder.decoder(data.get("img"), "addFace");
+		String filename = base64Decoder.decoder(data.getImage(), "addFace");
 		System.out.println(filename);
 		Thread.sleep(3000);
 		
 		String url = "http://203.233.199.76:8989/w/resources/add_Face/"+filename;
+		
+		String result = "";
+		return result;
+	}
+	
+	@RequestMapping(value = "/detect", method = RequestMethod.POST)
+	@ResponseBody
+	public String detect(@RequestBody Student data) throws Exception{
+		System.out.println("base64 수신 - detect");
+		Base64ToImgDecoder base64Decoder = new Base64ToImgDecoder();
+		String filename = base64Decoder.decoder(data.getImage(), "detect");
+		System.out.println(filename);
+		Thread.sleep(3000);
+		
+		String url = "http://203.233.199.76:8989/w/resources/face_detection/"+filename;
 		
 		String result = "";
 		return result;
