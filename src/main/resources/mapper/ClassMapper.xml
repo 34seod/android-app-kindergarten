@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xyz.btpink.w.dao.ClassMapper">
+	
+	<!-- 클래스 값 가져오기 -->
+	<select id="selectClass" parameterType="String" resultType="ClassVO">
+		select * from class where
+		memno= #{memNo}
+	</select>
+	
+	<!-- 모든 클래스정보 -->
+	<select id="allClass" resultType="ClassVO">
+		select * from class
+	</select>
+	
+	<!-- 클래스이름	중복확인 -->	
+	<select id="duplicateNameCheck" parameterType="ClassVO" resultType="ClassVO">
+		select * from class where
+		classname= #{className}
+	</select>
+	<!-- 클래스넘버 생성	중복확인 -->	
+	<select id="selectNextClassNo" resultType="int">
+		select seq_classno.nextval from dual
+	</select>
+	
+	<!--  반 등록하기 -->
+	<insert id="classInsert" parameterType="ClassVO"> 
+		insert into class (classno, classname, memno, age) 
+		values(
+			#{classNo},
+			#{className},
+			#{memNo},
+			#{age}
+		)
+	</insert>
+	
+		<!-- 모든 클래스정보+선생님이름 -->
+	<select id="allClassList" resultType="ClassVO">
+		select c.*, a.name as "teacherName"
+		from class c, account a
+		where c.memno=a.memno
+	</select>
+	
+	<select id="mySonClass" parameterType="string" resultType="string">
+		SELECT	classname
+		FROM	class
+		WHERE	classno = #{classno}
+	</select>
+
+
+	</mapper>

@@ -7,10 +7,15 @@
 		<typeAlias type="xyz.btpink.w.vo.Account" alias="Account" />
 		<typeAlias type="xyz.btpink.w.vo.Demand" alias="Demand" />
 		<typeAlias type="xyz.btpink.w.vo.Student" alias="Student" />
+		<typeAlias type="xyz.btpink.w.vo.ClassVO" alias="ClassVO" />
+		<typeAlias type="xyz.btpink.w.vo.Attendence" alias="Attendence" />
+		<typeAlias type="xyz.btpink.w.vo.MainParam" alias="MainParam" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="mapper/AccountMapper.xml" />
 		<mapper resource="mapper/MessageMapper.xml" />
 		<mapper resource="mapper/FaceApiMapper.xml" />
+		<mapper resource="mapper/ClassMapper.xml" />
+		<mapper resource="mapper/attendenceMapper.xml" />
 	</mappers>
 </configuration>
