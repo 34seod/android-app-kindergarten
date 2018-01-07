@@ -17,5 +17,6 @@
 		<mapper resource="mapper/FaceApiMapper.xml" />
 		<mapper resource="mapper/ClassMapper.xml" />
 		<mapper resource="mapper/attendenceMapper.xml" />
+		<mapper resource="mapper/studentMapper.xml" />
 	</mappers>
 </configuration>
