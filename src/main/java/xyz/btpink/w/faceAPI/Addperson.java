@@ -16,73 +16,63 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Addperson {
-	
+
 	public final String subscriptionKey = "a3b2643bceee45c89a8f16f4457bf8b1";
 	public final String uriBase = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/persongroups/example-group-00/persons";
-		
-	
-    public String addPerson(String name){
-        HttpClient httpclient = new DefaultHttpClient();
-        
-        String personId=null;
 
-        try
-        {
-            URIBuilder builder = new URIBuilder(uriBase);
+	public String addPerson(String name) {
+		HttpClient httpclient = new DefaultHttpClient();
 
+		String personId = null;
 
-            URI uri = builder.build();
-            HttpPost request = new HttpPost(uri);
-            
-            
-            request.setHeader("Content-Type", "application/json");
-            request.setHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
-            
-            String jsonname = "{\"name\":\"" + name+ "\"}";
+		try {
+			URIBuilder builder = new URIBuilder(uriBase);
 
+			URI uri = builder.build();
+			HttpPost request = new HttpPost(uri);
 
-            // Request body
-            StringEntity reqEntity = new StringEntity(jsonname, "utf8");
-            request.setEntity(reqEntity);
+			request.setHeader("Content-Type", "application/json");
+			request.setHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
 
-            HttpResponse response = httpclient.execute(request);
-            HttpEntity entity = response.getEntity();
+			String jsonname = "{\"name\":\"" + name + "\"}";
 
-            if (entity != null) 
-            {
-            	System.out.println("REST Response:\n");
-            	String jsonstring = EntityUtils.toString(entity).trim();
-            	
-                System.out.println(jsonstring);
-                
-                String arrayedJSON = "["+jsonstring+"]";
-                
-                JSONArray jsonArray = null;
-                JSONObject item = null;
-                
-                
-                
-                jsonArray = new JSONArray(arrayedJSON);
+			// Request body
+			StringEntity reqEntity = new StringEntity(jsonname, "utf8");
+			request.setEntity(reqEntity);
 
-                for(int i = 0; i<jsonArray.length(); i++){
-                	System.out.println("for문 진입!");
-                    item = jsonArray.getJSONObject(i);
-                    
-                    System.out.println(item);
-                    System.out.println(item.getString("personId"));
-                    personId = item.getString("personId");
-                   
-                }        
-                
-            }
-        }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-        
-        return personId;
-        
-    }
-    
+			HttpResponse response = httpclient.execute(request);
+			HttpEntity entity = response.getEntity();
+
+			if (entity != null) {
+				System.out.println("REST Response:\n");
+				String jsonstring = EntityUtils.toString(entity).trim();
+
+				System.out.println(jsonstring);
+
+				String arrayedJSON = "[" + jsonstring + "]";
+
+				JSONArray jsonArray = null;
+				JSONObject item = null;
+
+				jsonArray = new JSONArray(arrayedJSON);
+
+				for (int i = 0; i < jsonArray.length(); i++) {
+					System.out.println("for문 진입!");
+					item = jsonArray.getJSONObject(i);
+
+					System.out.println(item);
+					System.out.println(item.getString("personId"));
+					personId = item.getString("personId");
+
+				}
+
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		return personId;
+
+	}
+
 }
