@@ -7,10 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import xyz.btpink.w.vo.Account;
 import xyz.btpink.w.vo.Attendence;
 import xyz.btpink.w.vo.MainParam;
-import xyz.btpink.w.vo.Student;
 
 /**
  * 게시판 관련 DAO
@@ -35,6 +33,10 @@ public class AttendenceDAO {
 		return result;
 	}
 
-	
+	public ArrayList<Attendence> getEmotion(String id){
+		AttendenceMapper mapper = sqlSession.getMapper(AttendenceMapper.class);
+		ArrayList<Attendence> result = mapper.getEmotion(id);
+		return result;
+	}
 	
 }

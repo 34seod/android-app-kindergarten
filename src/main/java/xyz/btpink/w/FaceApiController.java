@@ -46,7 +46,7 @@ public class FaceApiController {
 	@ResponseBody
 	public String addFace(@RequestBody Student data) throws Exception{
 		System.out.println("base64 수신 - addface");
-		//System.out.println(data);
+		System.out.println(data.getName()+" "+data.getAddress()+" "+data.getBirth()+" "+data.getGender());
 		Base64ToImgDecoder base64Decoder = new Base64ToImgDecoder();
 		String filename = base64Decoder.decoder(data.getImage(), "addFace");
 		System.out.println(filename);

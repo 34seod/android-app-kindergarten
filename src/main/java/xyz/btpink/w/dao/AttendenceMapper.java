@@ -11,5 +11,6 @@ public interface AttendenceMapper {
 
 	public MainParam getMainParama();
 
+	public ArrayList<Attendence> getEmotion(String id);
 
 }
