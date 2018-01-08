@@ -10,6 +10,7 @@
 		<typeAlias type="xyz.btpink.w.vo.ClassVO" alias="ClassVO" />
 		<typeAlias type="xyz.btpink.w.vo.Attendence" alias="Attendence" />
 		<typeAlias type="xyz.btpink.w.vo.MainParam" alias="MainParam" />
+		<typeAlias type="xyz.btpink.w.vo.IdentfyVO" alias="IdentfyVO" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="mapper/AccountMapper.xml" />

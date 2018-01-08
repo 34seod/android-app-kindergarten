@@ -21,4 +21,20 @@
 				      WHERE		memno = #{id})
 </select>
 
+<insert id="insertInitAtd" parameterType="Attendence">
+	insert into attendence values (#{stdno}, #{classno}, to_char(sysdate, 'yy/mm/dd'), 1, 0, 0, 0, '')
+</insert>
+
+<update id="identfy" parameterType="IdentfyVO">
+	update attendence 
+		set emotion = #{emotion},absent =0,early = 0, sick=0, late=0 
+		where stdno = (select stdno from student where personalId = #{personId}) and today =(select to_char(sysdate,'yy/mm/dd')from dual)
+</update>
+
+<update id="late" parameterType="IdentfyVO">
+	update attendence 
+		set emotion = #{emotion},absent =0,early = 0,sick=0,late=1 
+		where stdno = (select stdno from student where personalId = #{personId}) and today =(select to_char(sysdate,'yy/mm/dd')from dual)
+</update>
+
 </mapper>

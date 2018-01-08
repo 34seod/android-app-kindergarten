@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import xyz.btpink.w.vo.Attendence;
 import xyz.btpink.w.vo.MainParam;
+import xyz.btpink.w.vo.IdentfyVO;
+import xyz.btpink.w.dao.AttendenceMapper;
 
 /**
  * 게시판 관련 DAO
@@ -37,6 +39,23 @@ public class AttendenceDAO {
 		AttendenceMapper mapper = sqlSession.getMapper(AttendenceMapper.class);
 		ArrayList<Attendence> result = mapper.getEmotion(id);
 		return result;
+	}
+	
+	public int insertInitAtd(Attendence atd){
+		AttendenceMapper mapper = sqlSession.getMapper(AttendenceMapper.class);
+		return mapper.insertInitAtd(atd);
+	}
+	
+	public int identfy(IdentfyVO identfy) {
+		// TODO Auto-generated method stub
+		AttendenceMapper mapper = sqlSession.getMapper(AttendenceMapper.class);
+
+		return mapper.identfy(identfy);
+	}
+	public int late(IdentfyVO identfyVO) {
+		// TODO Auto-generated method stub
+		AttendenceMapper mapper = sqlSession.getMapper(AttendenceMapper.class);
+		return mapper.late(identfyVO);
 	}
 	
 }
