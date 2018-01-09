@@ -28,6 +28,13 @@ public class Detect {
 	public String faceId[];
 	public String faceResult;
 	public int len;
+	
+	String url;
+	
+	public Detect(String url){
+		this.url = url;
+	}
+	
 	public TreeMap<String, Double> map;
 	TreeMap<String, xyz.btpink.w.vo.IdentfyVO> identifyMap;
 	public Map<String, xyz.btpink.w.vo.IdentfyVO> getFaceId(String image) {
@@ -53,11 +60,6 @@ public class Detect {
 			request.setHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
 			// Request body.201708271503837703388.jpg
 			// 마이크로 소프트로 이미지 주소 전달
-			String url = "{\"url\":\"http://203.233.199.74:8999/w/resources/face_detection/" + image + "\"}";
-//			String url = "{\"url\":\"https://geonho.btpink.xyz/www/resources/face_detection/" + image + "\"}";
-//			String url = "{\"url\":\"https://daheen.btpink.xyz/www/resources/face_detection/" + image + "\"}";
-//			String url = "{\"url\":\"https://suenghan.btpink.xyz/www/resources/face_detection/" + image + "\"}";
-			System.out.println(url);
 
 			StringEntity reqEntity = new StringEntity(url);
 			request.setEntity(reqEntity);

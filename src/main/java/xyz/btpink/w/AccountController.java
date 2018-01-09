@@ -34,16 +34,10 @@ public class AccountController {
 		System.out.println("POST : "+ data.getId()+", "+data.getPw());
 		//해당 id가 부모인지 선생인지 확인해서 P or T 를 앱에 전송한다.
 		String result = accountDAO.Login(data);
+		if(result.substring(0,1).equals("T")){
+			//그날의 출석정보가 없으면 기본값을 입력하도록하는 SQL 
+			
+		}
 		return result;
 	}
-//	@RequestMapping(value = "/login", method = RequestMethod.POST)
-//	@ResponseBody
-//	public String login(@RequestBody Map<String, String> data){
-//		
-//		System.out.println("POST : "+ data.get("id")+", "+data.get("pw"));
-//		//해당 id가 부모인지 선생인지 확인해서 P or T 를 앱에 전송한다.
-//		String result = accountDAO.Login(new Account(data.get("id"), data.get("pw")));
-//		return result;
-//	}
-	
 }

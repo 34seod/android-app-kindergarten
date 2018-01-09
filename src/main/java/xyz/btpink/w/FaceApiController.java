@@ -34,59 +34,60 @@ import xyz.btpink.w.vo.ClassVO;
 
 @Controller
 public class FaceApiController {
-	
+
 	@Autowired
 	AttendenceDAO attedenceDao;
 
 	@Autowired
 	FaceApiDAO faceApiDAO;
-	
+
 	@Autowired
 	StudentDAO sdao;
-	
+
 	@Autowired
 	ClassDAO cdao;
 
 	@Autowired
 	AttendenceDAO adao;
-	
+
 	@RequestMapping(value = "/addface", method = RequestMethod.POST)
 	@ResponseBody
-	public String addFace(@RequestBody Student data) throws Exception{
+	public String addFace(@RequestBody Student data) throws Exception {
 		System.out.println("base64 수신 - addface");
-		System.out.println(data.getName()+" "+data.getAddress()+" "+data.getBirth()+" "+data.getGender());
+		System.out.println(data.getName() + " " + data.getAddress() + " " + data.getBirth() + " " + data.getGender());
 		Base64ToImgDecoder base64Decoder = new Base64ToImgDecoder();
 		String filename = base64Decoder.decoder(data.getImage(), "addFace");
 		System.out.println(filename);
-		
-		String stdno = "S"+(filename.split("\\.")[0]);
-		
+
+		String stdno = "S" + (filename.split("\\.")[0]);
+
 		System.out.println("stdno : " + stdno);
 		Thread.sleep(3000);
-		
-		String url = "http://203.233.199.74:8999/w/resources/add_Face/"+filename;
-		System.out.println(data.getName()); //폼에서 입력받은 사용자 이름
-		
-		String personId = new Addperson().addPerson(data.getName()); //person 추가
+
+		String url = "http://203.233.199.74:8999/w/resources/add_Face/" + filename;
+		System.out.println(data.getName()); // 폼에서 입력받은 사용자 이름
+
+		String personId = new Addperson().addPerson(data.getName()); // person
+																		// 추가
 		System.out.println("addPerson 성공!!");
-		
-		new Addface().addface(personId, url); //addFace
-		new Train().train(); //Train
-		
+
+		new Addface().addface(personId, url); // addFace
+		new Train().train(); // Train
+
 		sapply(data, filename, stdno, personId); // DB 등록
-		
+
 		String result = "";
-		
+
 		return result;
 	}
-	
+
 	// 출석체크 알고리즘 실행
 	@RequestMapping(value = "detectImage", method = RequestMethod.POST)
 	public @ResponseBody String detectImage(@RequestBody Student data, Model model) throws Exception {
-		
+
 		System.out.println("detectImage 진입");
 		String name = "";
-		
+
 		long time = System.currentTimeMillis();
 		SimpleDateFormat dayTime = new SimpleDateFormat("kk:mm");
 		String str = dayTime.format(new Date(time));
@@ -98,7 +99,10 @@ public class FaceApiController {
 		String fileName = base.decoder(data.getImage(), "detect");
 		System.out.println(fileName);
 		Thread.sleep(5000);
-		Detect detect = new Detect();
+
+		String url = "http://203.233.199.76:8989/w/resources/face_detection/" + fileName;
+
+		Detect detect = new Detect(url);
 		System.out.println("Controller 초기");
 		Map<String, IdentfyVO> identfy = detect.getFaceId(fileName);
 		System.out.println("ident null 인가요 ?" + identfy);
@@ -106,79 +110,45 @@ public class FaceApiController {
 			identfy = null;
 			System.out.println("사람없음으로 들어옴");
 		} else {
-			if (9 < hour || (hour == 9 && minite > 0)) {
-				for (String result : identfy.keySet()) {
-					if(identfy.get(result).getEmotion()==null || identfy.get(result).getEmotion().equals("")){
-						identfy.get(result).setEmotion("neneutral");
-					}
-					attedenceDao.late(identfy.get(result));
+			for (String result : identfy.keySet()) {
+				if (identfy.get(result).getEmotion() == null || identfy.get(result).getEmotion().equals("")) {
+					identfy.get(result).setEmotion("neneutral");
 				}
-			} else {
-				for (String result : identfy.keySet()) {
-					if(identfy.get(result).getEmotion()==null || identfy.get(result).getEmotion().equals("")){
-						identfy.get(result).setEmotion("neneutral");
-					}
-					attedenceDao.identfy(identfy.get(result));
-				}
+				attedenceDao.identfy(identfy.get(result));
 			}
 		}
-		
-		System.out.println("결국 최종 identfy 뭔데? : "+identfy);
-		
+
+		System.out.println("결국 최종 identfy 뭔데? : " + identfy);
+
 		Set key = identfy.keySet();
-		  
-		  for (Iterator iterator = key.iterator(); iterator.hasNext();) {
-		                   String keyName = (String) iterator.next();
-		                   IdentfyVO valueName = (IdentfyVO) identfy.get(keyName);
-		   
-		                   System.out.println(keyName +" = " +valueName);
-		                   
-		                   String personId=valueName.getPersonId();
-		                   name =sdao.getName(personId);
-		           		   System.out.println(name);
-		                   
-		  }
-	
+
+		for (Iterator iterator = key.iterator(); iterator.hasNext();) {
+			String keyName = (String) iterator.next();
+			IdentfyVO valueName = (IdentfyVO) identfy.get(keyName);
+
+			System.out.println(keyName + " = " + valueName);
+
+			String personId = valueName.getPersonId();
+			name = sdao.getName(personId);
+			System.out.println(name);
+
+		}
+
 		System.out.println("Controller 마지막");
 
 		return name;
 	}
-	
-	
-	
-	
-	
-	@RequestMapping(value = "/detect", method = RequestMethod.POST)
-	@ResponseBody
-	public String detect(@RequestBody Student data) throws Exception{
-		System.out.println("base64 수신 - detect");
-		Base64ToImgDecoder base64Decoder = new Base64ToImgDecoder();
-		String filename = base64Decoder.decoder(data.getImage(), "detect");
-		System.out.println(filename);
-		Thread.sleep(3000);
-		
-		String url = "http://203.233.199.76:8989/w/resources/face_detection/"+filename;
-		
-		String result = "";
-		return result;
-	}
-	
-	public void sapply(Student student, String filename, String stdno, String personalid){
-		
+
+	public void sapply(Student student, String filename, String stdno, String personalid) {
+
 		student.setStdno(stdno);
 		student.setPersonalid(personalid);
-		
-		
+
 		int age = ageCal(student); // 나이계산 메소드 호출
 		student.setAge(age);
-		//String filename = file.getOriginalFilename();
 		student.setParentno("");// 학부모 번호를 불러오는 과정 정해질때까지 더미로...
 		student.setImage(filename);
 
-		//Account loginuser = (Account) session.getAttribute("User");
-		//System.out.println(loginuser);
-		//String memno = loginuser.getMemNo();
-		
 		String memno = student.getTeacherid();
 		System.out.println("dao 가기전 맴버넘버 가져오냐 ?" + memno);
 		ClassVO selClass = cdao.selectClass(memno);
@@ -196,7 +166,7 @@ public class FaceApiController {
 		Attendence atd = new Attendence(student.getStdno(), "", student.getClassno(), "", "", "", "", "", "", 0.0);
 		adao.insertInitAtd(atd);
 	}
-	
+
 	public int ageCal(Student student) {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("YYYY/MM/DD");
@@ -217,33 +187,8 @@ public class FaceApiController {
 
 		int factor = 0;
 
-		// if (today.get(Calendar.DAY_OF_YEAR) <
-		// birth.get(Calendar.DAY_OF_YEAR)) {
-		//
-		// factor = -1;
-		//
-		// }
-
 		int age = today.get(Calendar.YEAR) - birth.get(Calendar.YEAR) + factor;
 		System.out.println("나이계산결과 : " + age);
-
-		// SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-		// Date currenttime = new Date();
-		// Date birthday = null;
-		// try {
-		// birthday = formatter.parse(student.getBirth());
-		// } catch (ParseException e) {
-		// // TODO Auto-generated catch block
-		// // e.printStackTrace();
-		// }
-		// // System.out.println("현재시간" + currenttime);
-		// // System.out.println("생일" + birthday);
-		//
-		// long diff = currenttime.getTime() - birthday.getTime();
-		// long diffdays = diff / (24 * 60 * 60 * 1000);
-		// int age = (int) diffdays / 365;
-		// System.out.println("나이 : " + age);
-
 
 		return age;
 
