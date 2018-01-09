@@ -37,4 +37,9 @@
 		where stdno = (select stdno from student where personalId = #{personId}) and today =(select to_char(sysdate,'yy/mm/dd')from dual)
 </update>
 
+<select id="checkAtd" parameterType="String" resultType="Attendence">
+	select * from attendence where today = to_char(sysdate, 'yy/mm/dd') and classno=#{classno}
+</select>
+
+
 </mapper>
