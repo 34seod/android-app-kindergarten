@@ -36,4 +36,6 @@ public interface StudentMapper {
 	public ArrayList<Student> selectStu(String classno);
 	
 	public Student mySon(String stdno);
+	
+	public String getName(String personId);
 }

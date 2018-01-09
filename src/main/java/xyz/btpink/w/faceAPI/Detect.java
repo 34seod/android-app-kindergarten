@@ -86,8 +86,10 @@ public class Detect {
 						//크기별로 정렬 후 저장
 						if(sortByValue(map) == null || sortByValue(map).equals("")){
 							identfy.setEmotion("neutral");
+							System.out.println("감정 뉴트럴 기본값 저장 완료");
 						}else{
 							identfy.setEmotion(sortByValue(map));
+							System.out.println("감정 저장 완료!");
 						}
 						//faceId와 identfy 이모션 저장
 						detectMap.put(identfy.getFaceId(), identfy);
@@ -97,6 +99,7 @@ public class Detect {
 					identifyMap = identy.identfy(list);
 					for (String merge : identifyMap.keySet()) {
 						if(detectMap.containsKey(identifyMap.get(merge).getFaceId())){
+							
 							identifyMap.put(merge, new xyz.btpink.w.vo.IdentfyVO(merge, detectMap.get(identifyMap.get(merge).getFaceId()).getEmotion()));
 						}
 					}

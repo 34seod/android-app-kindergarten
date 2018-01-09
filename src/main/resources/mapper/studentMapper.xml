@@ -82,4 +82,11 @@
 	from student
 	where stdno = #{stdno}
 </select>
+
+<select id="getName" parameterType="String" resultType="String">
+	select NAME
+	from student
+	where personalid = #{personId}
+
+</select>
 </mapper>

@@ -5,7 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -80,9 +82,10 @@ public class FaceApiController {
 	
 	// 출석체크 알고리즘 실행
 	@RequestMapping(value = "detectImage", method = RequestMethod.POST)
-	public @ResponseBody Map<String, IdentfyVO> detectImage(@RequestBody Student data, Model model) throws Exception {
+	public @ResponseBody String detectImage(@RequestBody Student data, Model model) throws Exception {
 		
 		System.out.println("detectImage 진입");
+		String name = "";
 		
 		long time = System.currentTimeMillis();
 		SimpleDateFormat dayTime = new SimpleDateFormat("kk:mm");
@@ -119,9 +122,26 @@ public class FaceApiController {
 				}
 			}
 		}
+		
+		System.out.println("결국 최종 identfy 뭔데? : "+identfy);
+		
+		Set key = identfy.keySet();
+		  
+		  for (Iterator iterator = key.iterator(); iterator.hasNext();) {
+		                   String keyName = (String) iterator.next();
+		                   IdentfyVO valueName = (IdentfyVO) identfy.get(keyName);
+		   
+		                   System.out.println(keyName +" = " +valueName);
+		                   
+		                   String personId=valueName.getPersonId();
+		                   name =sdao.getName(personId);
+		           		   System.out.println(name);
+		                   
+		  }
+	
 		System.out.println("Controller 마지막");
 
-		return identfy;
+		return name;
 	}
 	
 	

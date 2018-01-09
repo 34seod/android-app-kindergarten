@@ -61,6 +61,8 @@ public class Identfy {
 								.get("personId");
 						
 						identfy = new xyz.btpink.w.vo.IdentfyVO(faceId, confidence);
+						
+						//identfy.setPersonId(personId); // personId 강제 세팅
 
 						if (map.size() == 0) {
 							//초기값 저장

@@ -101,4 +101,10 @@ public class StudentDAO {
 		Student result = mapper.mySon(stdno);
 		return result;
 	}
+	
+	public String getName(String personId){
+		StudentMapper mapper = sqlSession.getMapper(StudentMapper.class);
+		String result = mapper.getName(personId);
+		return result;
+	}
 }
