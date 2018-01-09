@@ -48,7 +48,7 @@ public class AccountController {
 			
 			System.out.println("초기확인작업 시작");
 
-			String memno = data.getId(); // 멤버 넘버 가져옴
+			String memno = result; // 멤버 넘버 가져옴
 			ClassVO selClass = cdao.selectClass(memno); // 멤버 넘버에 할당된 클래스 VO 가져옴
 			String classno = selClass.getClassNo(); // 클래스 VO에 포함된 클래스 넘버 가져옴.
 

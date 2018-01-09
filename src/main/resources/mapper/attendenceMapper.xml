@@ -22,7 +22,8 @@
 </select>
 
 <insert id="insertInitAtd" parameterType="Attendence">
-	insert into attendence values (#{stdno}, #{classno}, to_char(sysdate, 'yy/mm/dd'), 1, 0, 0, 0, '')
+	insert into attendence 
+	values (#{stdno}, #{classno}, to_char(sysdate, 'yy/mm/dd'), 1, 0, 0, 0, '')
 </insert>
 
 <update id="identfy" parameterType="IdentfyVO">
