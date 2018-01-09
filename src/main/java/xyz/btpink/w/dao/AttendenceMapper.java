@@ -19,5 +19,7 @@ public interface AttendenceMapper {
 	public int identfy(IdentfyVO identfy);
 	
 	public int late(IdentfyVO identfyVO);
+	
+	public ArrayList<Attendence> checkAtd(String classno);
 
 }
