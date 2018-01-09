@@ -64,7 +64,7 @@ public class FaceApiController {
 		System.out.println("stdno : " + stdno);
 		Thread.sleep(3000);
 
-		String url = "http://203.233.199.74:8999/w/resources/add_Face/" + filename;
+		String url = "http://203.233.199.76:8989/w/resources/add_Face/" + filename;
 		System.out.println(data.getName()); // 폼에서 입력받은 사용자 이름
 
 		String personId = new Addperson().addPerson(data.getName()); // person
@@ -82,7 +82,7 @@ public class FaceApiController {
 	}
 
 	// 출석체크 알고리즘 실행
-	@RequestMapping(value = "detectImage", method = RequestMethod.POST)
+	@RequestMapping(value = "detectImage",produces="application/json;charset=utf8", method = RequestMethod.POST)
 	public @ResponseBody String detectImage(@RequestBody Student data, Model model) throws Exception {
 
 		System.out.println("detectImage 진입");
@@ -100,7 +100,7 @@ public class FaceApiController {
 		System.out.println(fileName);
 		Thread.sleep(5000);
 
-		String url = "http://203.233.199.76:8989/w/resources/face_detection/" + fileName;
+		String url = "{\"url\":\"http://203.233.199.76:8989/w/resources/face_detection/" + fileName+"\"}";
 
 		Detect detect = new Detect(url);
 		System.out.println("Controller 초기");
@@ -136,6 +136,7 @@ public class FaceApiController {
 
 		System.out.println("Controller 마지막");
 
+		
 		return name;
 	}
 

@@ -61,6 +61,7 @@ public class Detect {
 			// Request body.201708271503837703388.jpg
 			// 마이크로 소프트로 이미지 주소 전달
 
+			System.out.println(url);
 			StringEntity reqEntity = new StringEntity(url);
 			request.setEntity(reqEntity);
 
