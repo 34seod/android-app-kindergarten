@@ -72,13 +72,10 @@ public class FaceApiController {
 		System.out.println("addPerson 성공!!");
 
 		new Addface().addface(personId, url); // addFace
-		new Train().train(); // Train
+		
 
-		sapply(data, filename, stdno, personId); // DB 등록
-
-		String result = "";
-
-		return result;
+		
+		return sapply(data, filename, stdno, personId); // DB 등록
 	}
 
 	// 출석체크 알고리즘 실행
@@ -109,29 +106,32 @@ public class FaceApiController {
 		if (identfy.size() == 0) {
 			identfy = null;
 			System.out.println("사람없음으로 들어옴");
+			name = "등록된 사람이 없습니다.";
 		} else {
 			for (String result : identfy.keySet()) {
 				if (identfy.get(result).getEmotion() == null || identfy.get(result).getEmotion().equals("")) {
 					identfy.get(result).setEmotion("neneutral");
 				}
 				attedenceDao.identfy(identfy.get(result));
+				
+				Set key = identfy.keySet();
+
+				for (Iterator iterator = key.iterator(); iterator.hasNext();) {
+					String keyName = (String) iterator.next();
+					IdentfyVO valueName = (IdentfyVO) identfy.get(keyName);
+
+					System.out.println(keyName + " = " + valueName);
+
+					String personId = valueName.getPersonId();
+					if(!name.equals("")) {
+						name += "@"+sdao.getName(personId);
+					}else{
+						name += sdao.getName(personId);
+					}
+					System.out.println(name);
+
+				}
 			}
-		}
-
-		System.out.println("결국 최종 identfy 뭔데? : " + identfy);
-
-		Set key = identfy.keySet();
-
-		for (Iterator iterator = key.iterator(); iterator.hasNext();) {
-			String keyName = (String) iterator.next();
-			IdentfyVO valueName = (IdentfyVO) identfy.get(keyName);
-
-			System.out.println(keyName + " = " + valueName);
-
-			String personId = valueName.getPersonId();
-			name = sdao.getName(personId);
-			System.out.println(name);
-
 		}
 
 		System.out.println("Controller 마지막");
@@ -140,7 +140,7 @@ public class FaceApiController {
 		return name;
 	}
 
-	public void sapply(Student student, String filename, String stdno, String personalid) {
+	public String sapply(Student student, String filename, String stdno, String personalid) {
 
 		student.setStdno(stdno);
 		student.setPersonalid(personalid);
@@ -166,6 +166,7 @@ public class FaceApiController {
 		}
 		Attendence atd = new Attendence(student.getStdno(), "", student.getClassno(), "", "", "", "", "", "", 0.0);
 		adao.insertInitAtd(atd);
+		return "";
 	}
 
 	public int ageCal(Student student) {

@@ -74,6 +74,7 @@ public class Addface {
 			System.out.println(e.getMessage());
 		}
 
+		new Train().train(); // Train
 		return persistedFaceId;
 	}
 }
